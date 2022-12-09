@@ -99,55 +99,63 @@ def get_skills_pairs() -> list[Pair]:
 
 def save_skills_without_repeats(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.WITHOUT_REPEATS.value) # Перезаписываем 
+    try:red.delete(SetRedis.WITHOUT_REPEATS.value) # Перезаписываем 
+    except:pass 
     for item in skills:
         red.sadd(SetRedis.WITHOUT_REPEATS.value, item)
 
 def save_skills_without_banal(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.WITHOUT_BANAL.value) # Перезаписываем 
+    try:red.delete(SetRedis.WITHOUT_BANAL.value) # Перезаписываем 
+    except:pass
     for item in skills:
         red.sadd(SetRedis.WITHOUT_BANAL.value, item)
 
 def save_skills_banal(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.BANAL.value) # Перезаписываем 
+    try:red.delete(SetRedis.BANAL.value) # Перезаписываем 
+    except:pass
     for item in skills:
         red.sadd(SetRedis.BANAL.value, item)
 
 def save_skills_lone(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.LONE.value) # Перезаписываем 
+    try:red.delete(SetRedis.LONE.value) # Перезаписываем 
+    except:pass
     for item in skills:
         red.sadd(SetRedis.LONE.value, item)
 
 def save_skills_grammatical_correction(skills :list[Correction]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.GRAMMATICAL_CORRECTION.value) # Перезаписываем 
+    try:red.delete(SetRedis.GRAMMATICAL_CORRECTION.value) # Перезаписываем 
+    except:pass
     for item in skills:
         red.sadd(SetRedis.GRAMMATICAL_CORRECTION.value, item)
 
 
 def save_skills_grammatical_errors(skills :list[Correction]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.GRAMMATICAL_ERRORS.value) # Перезаписываем 
+    try:red.delete(SetRedis.GRAMMATICAL_ERRORS.value) # Перезаписываем 
+    except:pass
     for item in skills:
         value = "|".join((item.WrongVersion, item.CorrectVersion))
         red.sadd(SetRedis.GRAMMATICAL_ERRORS.value, value)
 
 def save_skills_infinitive(skills :list[Infinitive]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.INFINITIVE.value) # Перезаписываем 
+    try:red.delete(SetRedis.INFINITIVE.value) # Перезаписываем 
+    except:pass
     for item in skills:
         value = "|".join((item.NormalForm, item.InfinitiveForm))
         red.sadd(SetRedis.INFINITIVE.value, value)
 
 def save_skills_pairs(skills :list[Pair]):
     red = redis.StrictRedis("localhost", 6379)
-    red.delete(SetRedis.PAIRS.value) # Перезаписываем 
+    try:red.delete(SetRedis.PAIRS.value) # Перезаписываем 
+    except:pass
     for item in skills:
         value = "|".join((item.First, item.Second))
-        red.sadd(SetRedis.WITHOUT_REPEATS.value, value)
+        red.sadd(SetRedis.PAIRS.value, value)
 
 
 
