@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"time"
+	"fmt"
 	"net/http"
 	"net/url"
 )
@@ -16,7 +18,11 @@ type WrongSkillJson struct{
 func CheckText(text string) (correctedSlice []WrongSkillJson) {
 	generatedUrl := generateParamsUrl(text)
 	req, err := http.Get(generatedUrl)
-	checkErr(err)
+	if err != nil{
+		fmt.Println("Словили ошибку. Теперь отдыхаем 30 секунд.")
+		time.Sleep(30 * time.Second)
+
+	}
 	if req.StatusCode != 200{
 		return
 	}
