@@ -1,0 +1,6 @@
+redis
+pymorphy2
+pymorphy2-dicts-ru
+spacy
+rich
+colorama
