@@ -2,11 +2,10 @@ package yandexapi
 
 import (
 	"encoding/json"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"io/ioutil"
-	"io"
-
 )
 
 type WrongSkillJson struct{
