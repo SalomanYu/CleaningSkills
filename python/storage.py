@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import csv
 import redis
@@ -7,7 +8,10 @@ from typing import NamedTuple
 
 
 SKILLS_COLUMN = 9
-FOLDER_VACANCIES = "C:\Projects\Go\src\Vacancies"
+if sys.platform == "win32":
+    FOLDER_VACANCIES = "C:\Projects\Go\src\Vacancies"
+elif sys.platform == "linux":
+    FOLDER_VACANCIES = "../../Vacancies"
 
 class SetRedis(Enum):
     WITHOUT_REPEATS = os.getenv("WITHOUT_REPEATS")
