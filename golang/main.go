@@ -21,6 +21,7 @@ func main(){
 	grouped_skills := groupSkills(skills)
 	fmt.Println(len(grouped_skills))
 	for i, group := range grouped_skills{
+		POLLS_LEN = len(group)
 		correctAllSkills(group)
 		fmt.Println("group: ", i)
 	}
@@ -34,7 +35,6 @@ func groupSkills(skills []string) (grouped_skills [][]string){
 			grouped_skills = append(grouped_skills, group[:POOLS_LIMIT])
 		} else {
 			grouped_skills = append(grouped_skills, group)
-			POLLS_LEN = len(group)
 		}
 	}
 	return
