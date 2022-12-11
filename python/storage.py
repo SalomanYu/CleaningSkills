@@ -1,25 +1,38 @@
 import os
 import sys
+from dotenv import load_dotenv
 import json
 import csv
 import redis
 from enum import Enum
 from typing import NamedTuple
 
+dotenv_path = ".env"
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+else:
+    exit("Не найден файл .env, содержащий переменные окружения")
 
 SKILLS_COLUMN = 9
 if sys.platform == "win32": FOLDER_VACANCIES = "C:\Projects\Go\src\Vacancies"
 elif sys.platform == "linux": FOLDER_VACANCIES = "../../Vacancies"
 
+def __check_enviroment_variables(variable: Enum):
+    if None in (variable.WITHOUT_REPEATS.value, variable.WITHOUT_BANAL.value, variable.BANAL.value, variable.GRAMMATICAL_CORRECTION.value, 
+    variable.GRAMMATICAL_ERRORS.value, variable.INFINITIVE.value, variable.PAIRS.value, variable.LONE.value):
+        exit("Неправильно заданы переменные окружения!")
+
 class SetRedis(Enum):
-    WITHOUT_REPEATS = os.getenv("WITHOUT_REPEATS")
-    WITHOUT_BANAL = os.getenv("BANAL")
-    BANAL = os.getenv("BANAL")
-    GRAMMATICAL_CORRECTION = os.getenv("GRAMMATICAL_CORRECTION")
-    GRAMMATICAL_ERRORS = os.getenv("GRAMMATICAL_ERRORS")
-    INFINITIVE = os.getenv("INFINITIVE")
-    PAIRS = os.getenv("PAIRS")
-    LONE = os.getenv("LONE")
+    WITHOUT_REPEATS = os.getenv("SET_WITHOUT_REPEATS")
+    WITHOUT_BANAL = os.getenv("SET_WITHOUT_BANAL")
+    BANAL = os.getenv("SET_BANAL")
+    GRAMMATICAL_CORRECTION = os.getenv("SET_GRAMMATICAL_CORRECTION")
+    GRAMMATICAL_ERRORS = os.getenv("SET_GRAMMATICAL_ERRORS")
+    INFINITIVE = os.getenv("SET_INFINITIVE")
+    PAIRS = os.getenv("SET_PAIRS")
+    LONE = os.getenv("SET_LONE")
+
+__check_enviroment_variables(SetRedis)
 
 class Correction(NamedTuple):
     WrongVersion    :str

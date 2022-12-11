@@ -4,3 +4,4 @@ pymorphy2-dicts-ru
 spacy
 rich
 colorama
+python-dotenv
