@@ -3,21 +3,22 @@ import storage
 
 
 def start():
-    startSkills = storage.get_vacancies_skills()
-    if not startSkills: exit("Мы не смогли вытащить из вакансий ни одного навыка")
-    withoutRepeats = cleaner.clean(startSkills)
-    storage.save_skills_without_repeats(withoutRepeats)
+    # startSkills = storage.get_vacancies_skills()
+    # if not startSkills: exit("Мы не смогли вытащить из вакансий ни одного навыка")
+    # withoutRepeats = cleaner.clean(startSkills)
+    # storage.save_skills_without_repeats(withoutRepeats)
 
-    # withoutRepeats = storage.get_skills_without_repeats()
-    banalSkills = storage.get_banal_skills_from_json()
-    storage.save_skills_banal(banalSkills)
+    # # withoutRepeats = storage.get_skills_without_repeats()
+    # banalSkills = storage.get_banal_skills_from_json()
+    # storage.save_skills_banal(banalSkills)
 
-    withoutBanal = cleaner.remove_banal_from_skills(withoutRepeats)
-    storage.save_skills_without_banal(withoutBanal)
+    # withoutBanal = cleaner.remove_banal_from_skills(withoutRepeats)
+    # storage.save_skills_without_banal(withoutBanal)
 
     # Пауза... Golang проверяет грамматику
 
     # grammaticalCorrected = storage.get_skills_grammatical_correction()
+    print(storage.get_skill_grammatical_errors[:10])
     # infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
     # storage.save_skills_infinitive(infinitiveSkills)
 
