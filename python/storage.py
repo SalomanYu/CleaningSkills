@@ -8,10 +8,8 @@ from typing import NamedTuple
 
 
 SKILLS_COLUMN = 9
-if sys.platform == "win32":
-    FOLDER_VACANCIES = "C:\Projects\Go\src\Vacancies"
-elif sys.platform == "linux":
-    FOLDER_VACANCIES = "../../Vacancies"
+if sys.platform == "win32": FOLDER_VACANCIES = "C:\Projects\Go\src\Vacancies"
+elif sys.platform == "linux": FOLDER_VACANCIES = "../../Vacancies"
 
 class SetRedis(Enum):
     WITHOUT_REPEATS = os.getenv("WITHOUT_REPEATS")
@@ -66,39 +64,47 @@ def get_banal_skills_from_json():
 
 def get_skills_without_repeats() -> list[str]:
     red = redis.StrictRedis("localhost", 6379)
-    return [i.decode("utf-8") for i in red.smembers(SetRedis.WITHOUT_REPEATS.value)]
+    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.WITHOUT_REPEATS.value)]
+    except:exit(f"Ключ {SetRedis.WITHOUT_REPEATS.value} не существует")
 
 def get_skills_without_banals() -> list[str]:
     red = redis.StrictRedis("localhost", 6379)
-    return [i.decode("utf-8") for i in red.smembers(SetRedis.WITHOUT_BANAL.value)]
+    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.WITHOUT_BANAL.value)]
+    except:exit(f"Ключ {SetRedis.WITHOUT_BANAL.value} не существует")
 
 def get_banal_skills() -> list[str]:
     red = redis.StrictRedis("localhost", 6379)
-    return [i.decode("utf-8") for i in red.smembers(SetRedis.BANAL.value)]
+    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.BANAL.value)]
+    except:exit(f"Ключ {SetRedis.BANAL.value} не существует")
 
 def get_skills_grammatical_correction() -> list[str]:
     red = redis.StrictRedis("localhost", 6379)
-    return [i.decode("utf-8") for i in red.smembers(SetRedis.GRAMMATICAL_CORRECTION.value)]
+    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.GRAMMATICAL_CORRECTION.value)]
+    except:exit(f"Ключ {SetRedis.GRAMMATICAL_CORRECTION.value} не существует")
 
 def get_skills_lone() -> list[str]:
     red = redis.StrictRedis("localhost", 6379)
-    return [i.decode("utf-8") for i in red.smembers(SetRedis.LONE.value)]
+    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.LONE.value)]
+    except:exit(f"Ключ {SetRedis.LONE.value} не существует")
 
 def get_skills_grammatical_errors() -> list[Correction]:
     red = redis.StrictRedis("localhost", 6379)
     items = (i.decode("utf-8") for i in red.smembers(SetRedis.GRAMMATICAL_ERRORS.value))
-    return [Correction(*item.split("|")) for item in items]
+    try:return [Correction(*item.split("|")) for item in items]
+    except:exit(f"Ключ {SetRedis.GRAMMATICAL_ERRORS.value} не существует")
 
 
 def get_skills_infinitive() -> list[Infinitive]:
     red = redis.StrictRedis("localhost", 6379)
     items =  [i.decode("utf-8") for i in red.smembers(SetRedis.INFINITIVE.value)]
-    return [Infinitive(*item.split("|")) for item in items]
+    try:return [Infinitive(*item.split("|")) for item in items]
+    except:exit(f"Ключ {SetRedis.INFINITIVE.value} не существует")
 
 def get_skills_pairs() -> list[Pair]:
     red = redis.StrictRedis("localhost", 6379)
     items = [i.decode("utf-8") for i in red.smembers(SetRedis.PAIRS.value)]
-    return [Pair(*item.split("|")) for item in items]
+    try:return [Pair(*item.split("|")) for item in items]
+    except:exit(f"Ключ {SetRedis.PAIRS.value} не существует")
 
 
 def save_skills_without_repeats(skills :list[str]):
@@ -106,35 +112,35 @@ def save_skills_without_repeats(skills :list[str]):
     try:red.delete(SetRedis.WITHOUT_REPEATS.value) # Перезаписываем 
     except:pass 
     for item in skills:
-        red.sadd(SetRedis.WITHOUT_REPEATS.value, item)
+        if item is not None:red.sadd(SetRedis.WITHOUT_REPEATS.value, item)
 
 def save_skills_without_banal(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
     try:red.delete(SetRedis.WITHOUT_BANAL.value) # Перезаписываем 
     except:pass
     for item in skills:
-        red.sadd(SetRedis.WITHOUT_BANAL.value, item)
+        if item is not None:red.sadd(SetRedis.WITHOUT_BANAL.value, item)
 
 def save_skills_banal(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
     try:red.delete(SetRedis.BANAL.value) # Перезаписываем 
     except:pass
     for item in skills:
-        red.sadd(SetRedis.BANAL.value, item)
+        if item is not None:red.sadd(SetRedis.BANAL.value, item)
 
 def save_skills_lone(skills :list[str]):
     red = redis.StrictRedis("localhost", 6379)
     try:red.delete(SetRedis.LONE.value) # Перезаписываем 
     except:pass
     for item in skills:
-        red.sadd(SetRedis.LONE.value, item)
+        if item is not None:red.sadd(SetRedis.LONE.value, item)
 
 def save_skills_grammatical_correction(skills :list[Correction]):
     red = redis.StrictRedis("localhost", 6379)
     try:red.delete(SetRedis.GRAMMATICAL_CORRECTION.value) # Перезаписываем 
     except:pass
     for item in skills:
-        red.sadd(SetRedis.GRAMMATICAL_CORRECTION.value, item)
+        if item is not None:red.sadd(SetRedis.GRAMMATICAL_CORRECTION.value, item)
 
 
 def save_skills_grammatical_errors(skills :list[Correction]):
@@ -143,7 +149,7 @@ def save_skills_grammatical_errors(skills :list[Correction]):
     except:pass
     for item in skills:
         value = "|".join((item.WrongVersion, item.CorrectVersion))
-        red.sadd(SetRedis.GRAMMATICAL_ERRORS.value, value)
+        if item is not None:red.sadd(SetRedis.GRAMMATICAL_ERRORS.value, value)
 
 def save_skills_infinitive(skills :list[Infinitive]):
     red = redis.StrictRedis("localhost", 6379)
@@ -151,7 +157,7 @@ def save_skills_infinitive(skills :list[Infinitive]):
     except:pass
     for item in skills:
         value = "|".join((item.NormalForm, item.InfinitiveForm))
-        red.sadd(SetRedis.INFINITIVE.value, value)
+        if item is not None:red.sadd(SetRedis.INFINITIVE.value, value)
 
 def save_skills_pairs(skills :list[Pair]):
     red = redis.StrictRedis("localhost", 6379)
@@ -159,7 +165,7 @@ def save_skills_pairs(skills :list[Pair]):
     except:pass
     for item in skills:
         value = "|".join((item.First, item.Second))
-        red.sadd(SetRedis.PAIRS.value, value)
+        if item is not None:red.sadd(SetRedis.PAIRS.value, value)
 
 
 
