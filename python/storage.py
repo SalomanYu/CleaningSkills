@@ -91,8 +91,9 @@ def get_banal_skills() -> list[str]:
     except:exit(f"Ключ {SetRedis.BANAL.value} не существует")
 
 def get_skills_grammatical_correction() -> list[str]:
+    """Возвращаем только правильные варианты"""
     red = redis.StrictRedis("localhost", 6379)
-    try:return [i.decode("utf-8") for i in red.smembers(SetRedis.GRAMMATICAL_CORRECTION.value)]
+    try:return [i.decode("utf-8").split("|")[-1] for i in red.smembers(SetRedis.GRAMMATICAL_CORRECTION.value)]
     except:exit(f"Ключ {SetRedis.GRAMMATICAL_CORRECTION.value} не существует")
 
 def get_skills_lone() -> list[str]:
@@ -108,6 +109,7 @@ def get_skills_grammatical_errors() -> list[Correction]:
 
 
 def get_skills_infinitive() -> list[Infinitive]:
+    """Возвращаем только инфинитив"""
     red = redis.StrictRedis("localhost", 6379)
     items =  [i.decode("utf-8") for i in red.smembers(SetRedis.INFINITIVE.value)]
     try:return [Infinitive(*item.split("|")) for item in items]

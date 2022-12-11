@@ -17,22 +17,24 @@ def start():
 
     # Пауза... Golang проверяет грамматику
 
-    # grammaticalCorrected = storage.get_skills_grammatical_correction()
-    print(len(storage.get_skill_grammatical_errors()))
-    print(len(storage.get_skills_grammatical_correction()))
-    # infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
-    # storage.save_skills_infinitive(infinitiveSkills)
+    grammaticalCorrected = storage.get_skills_grammatical_correction()
+    infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
+    storage.save_skills_infinitive(infinitiveSkills)
+    print("Привели навыки к начальной форме слов...")
 
-    # withoutRepeats = cleaner.clean(grammaticalCorrected)
-    # storage.save_skills_without_repeats(withoutRepeats)
+    withoutRepeats = cleaner.clean(grammaticalCorrected)
+    storage.save_skills_without_repeats(withoutRepeats)
+    print("Снова очистили от дубликатов")
 
-    # withoutBanal = cleaner.remove_banal_from_skills(withoutRepeats)
-    # storage.save_skills_without_banal(withoutBanal)
+    withoutBanal = cleaner.remove_banal_from_skills(withoutRepeats)
+    storage.save_skills_without_banal(withoutBanal)
+    print("Снова очистили от банальных навыков")
 
-    # lones, pairs = cleaner.match_skills(withoutBanal) # тут нужно передавать инфинитив
+    lones, pairs = cleaner.match_skills(infinitiveSkills) # тут нужно передавать инфинитив
+    print(f"Найдено f{len(lones)} навыков, у которых нет пары")
+    print(f"Найдено f{len(pairs)} навыков, у которых есть пары")
+    storage.save_skills_lone(lones)
+    storage.save_skills_pairs(pairs)
     
-    # storage.save_skills_lone(lones)
-    # storage.save_skills_pairs(pairs)
-
 if __name__ == "__main__":
     start()
