@@ -12,12 +12,14 @@ import (
 )
 
 const POOLS_LIMIT = 1000
+var POLLS_LEN int
 
 
 func main(){
 	start := time.Now().Unix()
 	skills := db.GetSkillFromRedis("without_banal")
 	grouped_skills := groupSkills(skills)
+	fmt.Println(len(grouped_skills))
 	for i, group := range grouped_skills{
 		correctAllSkills(group)
 		fmt.Println("group: ", i)
@@ -32,6 +34,7 @@ func groupSkills(skills []string) (grouped_skills [][]string){
 			grouped_skills = append(grouped_skills, group[:POOLS_LIMIT])
 		} else {
 			grouped_skills = append(grouped_skills, group)
+			POLLS_LEN = len(group)
 		}
 	}
 	return
@@ -39,7 +42,7 @@ func groupSkills(skills []string) (grouped_skills [][]string){
 
 func correctAllSkills(skills []string) {
 	var wg sync.WaitGroup
-	wg.Add(POOLS_LIMIT)
+	wg.Add(POLLS_LEN)
 
 	for _, skill := range skills {
 		go correct(skill, &wg)
