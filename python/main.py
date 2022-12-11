@@ -18,7 +18,8 @@ def start():
     # Пауза... Golang проверяет грамматику
 
     # grammaticalCorrected = storage.get_skills_grammatical_correction()
-    print(storage.get_skill_grammatical_errors[:10])
+    print(len(storage.get_skill_grammatical_errors()))
+    print(len(storage.get_skills_grammatical_correction()))
     # infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
     # storage.save_skills_infinitive(infinitiveSkills)
 
