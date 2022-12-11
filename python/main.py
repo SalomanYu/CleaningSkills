@@ -18,21 +18,22 @@ def start():
     # Пауза... Golang проверяет грамматику
 
     grammaticalCorrected = storage.get_skills_grammatical_correction()
-    infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
-    storage.save_skills_infinitive(infinitiveSkills)
-    print("Привели навыки к начальной форме слов...")
+    # infinitiveSkills = cleaner.infinitive_skills(grammaticalCorrected)
+    # storage.save_skills_infinitive(infinitiveSkills)
+    # print("Привели навыки к начальной форме слов...")
 
     withoutRepeats = cleaner.clean(grammaticalCorrected)
     storage.save_skills_without_repeats(withoutRepeats)
-    print("Снова очистили от дубликатов")
+    # print("Снова очистили от дубликатов")
 
     withoutBanal = cleaner.remove_banal_from_skills(withoutRepeats)
     storage.save_skills_without_banal(withoutBanal)
-    print("Снова очистили от банальных навыков")
+    # print("Снова очистили от банальных навыков")
 
+    infinitiveSkills = storage.get_skills_infinitive()
     lones, pairs = cleaner.match_skills(infinitiveSkills) # тут нужно передавать инфинитив
-    print(f"Найдено f{len(lones)} навыков, у которых нет пары")
-    print(f"Найдено f{len(pairs)} навыков, у которых есть пары")
+    print(f"{len(lones)} lone")
+    print(f"{len(pairs)} pairs")
     storage.save_skills_lone(lones)
     storage.save_skills_pairs(pairs)
     
