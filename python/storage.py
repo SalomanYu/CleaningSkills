@@ -1,11 +1,14 @@
 import os
 import sys
-from dotenv import load_dotenv
-import json
-import csv
-import redis
 from enum import Enum
 from typing import NamedTuple
+
+import json
+import csv
+
+import redis
+import pymysql
+from dotenv import load_dotenv
 
 dotenv_path = ".env"
 if os.path.exists(dotenv_path):

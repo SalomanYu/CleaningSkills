@@ -3,11 +3,11 @@ from rich.progress import track
 import storage
 
 
-def match_skills(skills: list[storage.Infinitive], autosave: bool = False) -> tuple[list[str], list[storage.Pair]]:
+def match_skills_by_spacy(skills: list[storage.Infinitive], autosave: bool = False) -> tuple[list[str], list[storage.Pair]]:
     nlp = ru_core_news_lg.load()
     lones: list[str] = []
     pairs: list[storage.Pair] = []
-    for index1 in track(range(len(skills)), description="[yellow]Find pairs..."):
+    for index1 in track(range(len(skills)), description="[yellow]Find pairs by spacy..."):
         infinitive = skills[index1].InfinitiveForm
         normal = skills[index1].NormalForm
         doc1 = nlp(infinitive)
