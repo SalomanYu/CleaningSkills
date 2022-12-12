@@ -5,3 +5,5 @@ spacy
 rich
 colorama
 python-dotenv
+pymysql
+fuzzywuzzy
