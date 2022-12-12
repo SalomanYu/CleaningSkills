@@ -3,7 +3,7 @@ from rich.progress import track
 import storage
 
 
-def match_skills(skills: list[storage.Infinitive]) -> tuple[list[str], list[storage.Pair]]:
+def match_skills(skills: list[storage.Infinitive], autosave: bool = False) -> tuple[list[str], list[storage.Pair]]:
     nlp = ru_core_news_lg.load()
     lones: list[str] = []
     pairs: list[storage.Pair] = []
@@ -13,7 +13,9 @@ def match_skills(skills: list[storage.Infinitive]) -> tuple[list[str], list[stor
         doc1 = nlp(infinitive)
         try:
             pair_for_skill = next(skills[index2].NormalForm for index2 in range(index1+1, len(skills)) if doc1.similarity(nlp(skills[index2].InfinitiveForm))*100 > 80)
-            pairs.append(storage.Pair(normal, pair_for_skill))
+            if autosave:storage.save_skills_pairs((storage.Pair(normal, pair_for_skill), ))
+            else: pairs.append(storage.Pair(normal, pair_for_skill))
         except StopIteration: 
-            lones.append(normal)
+            if autosave:storage.save_skills_lone((normal, ))
+            else:lones.append(normal)
     return lones, pairs
